@@ -1,4 +1,4 @@
 chi
 ===
 
-Minalist Go web framework for funzies and exploration
+Minimalist Go web framework for funzies and exploration
