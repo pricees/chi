@@ -7,7 +7,7 @@ import (
 )
 
 func helloWorld(w http.ResponseWriter, r *http.Request) {
-  instant.Send(w, "Hello Jeah!", "not found", nil)
+  instant.Send(w, "<h1>Hello Jeah!</h1>", "not found", nil)
 }
 
 func main() {
