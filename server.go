@@ -2,6 +2,7 @@ package main
 
 import (
   "fmt"
+  "./instant"
   "net/http"
 )
 
@@ -10,7 +11,9 @@ func helloWorld(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-  fmt.Println("Loading server on 8080")
-  http.HandleFunc("/", helloWorld)
-  http.ListenAndServe(":8080", nil)
+
+  p := 8080
+  fmt.Printf("'instant' listening on %d\n", p)
+  instant.Get("/", helloWorld)
+  instant.Listen(p)
 }
