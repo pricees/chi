@@ -1,4 +1,4 @@
-![Chicago Flag](https://en.wikipedia.org/wiki/Flag_of_Chicago#/media/File:Flag_of_Chicago,_Illinois.svg "Chicago Flag")
+![Chicago Flag](http://www.billslater.com/mychicago/Chicago_Flag_1.png)
 
 chi
 ===
