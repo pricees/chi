@@ -81,8 +81,8 @@ $ curl "http://localhost:8080/foo/bar/baz" # Optional slash
 $ curl -X POST "http://localhost:8080/"
 # => "This is a post!"
 
-$ curl -I -X PUT "http://localhost:8080/foo/bar/baz" # 
+$ curl -I -X PUT "http://localhost:8080/foo/bar/baz" 
 # HTTP/1.1 404 Not Found
 # ...
 ```
-__Note: The "Not Found" error is improper. We should respond with a _405 Method Not Allowed_. That is something you should handle.__
+_Note: The "Not Found" error is improper. We should respond with a __405 Method Not Allowed__. That is something you should handle._
