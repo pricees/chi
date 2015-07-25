@@ -2,18 +2,19 @@ package middleware
 
 import "net/http"
 
-var middlewares []func(http.ResponseWriter, *http.Request) 
+type Middlewares []func(http.ResponseWriter, *http.Request) 
+var Middleware Middlewares
 
 func init() {
-  middlewares = make([]func(http.ResponseWriter, *http.Request), 0, 1)
+  Middleware = make(Middlewares, 0, 1)
 }
 
-func Add(middleware func(http.ResponseWriter, *http.Request)) {
-  middlewares = append(middlewares, middleware)
+func (m Middlewares) Add(middleware func(http.ResponseWriter, *http.Request)) {
+  m = append(m, middleware)
 }
 
-func Run(w http.ResponseWriter, r *http.Request) {
-  for _, middleware := range middlewares {
+func (m Middlewares) Run(w http.ResponseWriter, r *http.Request) {
+  for _, middleware := range m {
     middleware(w, r)
   }
 }

@@ -21,7 +21,6 @@ type RouteHandler struct {
   handler func(http.ResponseWriter, *http.Request)
 }
 
-
 func (r RouteHandlers) findRouteHandler(url string) (*RouteHandler, bool){
   for _, routeHandler := range r {
     if routeHandler.routeMatcher.Match([]byte(url)) {
