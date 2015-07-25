@@ -85,4 +85,4 @@ $ curl -I -X PUT "http://localhost:8080/foo/bar/baz"
 # HTTP/1.1 404 Not Found
 # ...
 ```
-_Note: The "Not Found" error is improper. We should respond with a __405 Method Not Allowed__. That is something you should handle._
+_Note: The "Not Found" error is improper. We should respond with a *405 Method Not Allowed*. That is something you should handle._
