@@ -5,22 +5,15 @@ import (
   "log"
   "net/http"
   "../router"
+  "../middleware"
 )
 
 
-var middlewares []Middleware
-type Middleware struct { }
-
-func (m Middleware) Run(w http.ResponseWriter, r *http.Request) {
-
-}
 
 type MyServeMux struct { }
 
 func (m MyServeMux) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-  for _, m := range middlewares {
-    m.Run(w, r)
-  }
+  middleware.Run(w, r)
   router.Routes.ServeHTTP(w, r)
 }
 
