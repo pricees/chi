@@ -60,6 +60,14 @@ func main() {
 }
 ```
 
+### Demo ###
+
+__Open one tab. Start the app.__
+```bash
+$ go run driver.go
+```
+
+__Open another tab, use from curl commands to test routes__
 ```bash
 $ curl "http://localhost:8080/foo"
 # => "This is foo"
@@ -67,6 +75,14 @@ $ curl "http://localhost:8080/foo"
 $ curl "http://localhost:8080/foo123"
 # => "<h1>Hello World!</h1>"
 
-curl -X POST "http://localhost:8080/"
+$ curl "http://localhost:8080/foo/bar/baz" # Optional slash
+# => "<h1>Hello World!</h1>"
+
+$ curl -X POST "http://localhost:8080/"
 # => "This is a post!"
+
+$ curl -I -X PUT "http://localhost:8080/foo/bar/baz" # 
+# HTTP/1.1 404 Not Found
+# ...
 ```
+__Note: The "Not Found" error is improper. We should respond with a _405 Method Not Allowed_. That is something you should handle.__
