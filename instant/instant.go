@@ -19,8 +19,7 @@ type Middlewarer interface {
 }
 
 var myRouter Router
-//var myMiddleware Middlewarer
-var myMiddleware middleware.Middlewares
+var myMiddleware Middlewarer
 
 func init() {
   myRouter = router.Routes

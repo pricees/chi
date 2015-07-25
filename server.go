@@ -8,13 +8,16 @@ import (
 )
 
 func helloWorld(w http.ResponseWriter, r *http.Request) {
-  instant.Send(w, "<h1>Hello Jeah!</h1>", "not found", nil)
+  instant.Send(w, "<h1>Hello Jeah!</h1>", "continue", nil)
 }
 
 func main() {
 
   // Add some routes, handlers
-  instant.Get("/", helloWorld)
+  instant.Get("/foo", func(w http.ResponseWriter, r *http.Request) {
+    instant.Send(w, "This is foo", "ok", nil)
+  })
+  instant.Get("/foo/?.*", helloWorld)
   instant.Post("/", func(w http.ResponseWriter, r *http.Request) {
     instant.Send(w, "This is a post!", "found", nil)
   })
