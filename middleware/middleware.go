@@ -1,7 +1,6 @@
 package middleware
 
 import "net/http"
-import "fmt"
 
 type middleware func(http.ResponseWriter, *http.Request)
 type Middlewares struct {
@@ -19,9 +18,7 @@ func init() {
 }
 
 func (m *Middlewares) Add(middleware func(http.ResponseWriter, *http.Request)) {
-  fmt.Println("Adding middleware")
   m.middlewares = append(m.middlewares, middleware)
-  fmt.Println(len(m.middlewares))
 }
 
 func (m Middlewares) Run(w http.ResponseWriter, r *http.Request) {
