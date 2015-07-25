@@ -7,12 +7,22 @@ _  "errors"
   "regexp"
 )
 
-type RouteHandler struct {
-  routeMatcher *regexp.Regexp
-  handlerFunc func(http.ResponseWriter, *http.Request)
+
+func init() {
+  Routes = &RouteTable{}
 }
 
+var Routes *RouteTable
+
+type RouteTable map[string]RouteHandlers
+
 type RouteHandlers []*RouteHandler
+
+type RouteHandler struct {
+  routeMatcher *regexp.Regexp
+  handler func(http.ResponseWriter, *http.Request)
+}
+
 
 func (r RouteHandlers) findRouteHandler(url string) (*RouteHandler, bool){
   for _, routeHandler := range r {
@@ -24,11 +34,21 @@ func (r RouteHandlers) findRouteHandler(url string) (*RouteHandler, bool){
 
 }
 
-func (r RouteHandlers) Route(url string, handler func(http.ResponseWriter, *http.Request)) RouteHandlers {
-  return append(r, &RouteHandler{ regexp.MustCompile(fmt.Sprintf("^%s%$", url)), handler} )
+func (rh RouteHandlers) Route(url string, handler func(http.ResponseWriter, *http.Request)) RouteHandlers {
+  return append(rh, &RouteHandler{ regexp.MustCompile(fmt.Sprintf("^%s%$", url)), handler} )
 }
 
-type RouteTable map[string]RouteHandlers
+func (rt *RouteTable) Handle(w http.ResponseWriter, req *http.Request) {
+    url := req.URL.String()
+    fmt.Println(req.Method, url)
+    if _, exists := (*rt)[req.Method]; !exists {
+      http.NotFound(w, req)
+    }
+
+    if rh, _ := (*rt)[req.Method].findRouteHandler(url); rh != nil {
+      rh.handler(w, req)
+    }
+}
 
 func (r *RouteTable) Route(method string, url string, handler func(http.ResponseWriter, *http.Request)) {
     if _, exists := (*r)[method]; !exists {
@@ -41,12 +61,6 @@ func (r *RouteTable) Route(method string, url string, handler func(http.Response
     fmt.Println(Routes)
 }
 
-var Routes *RouteTable
-
-func init() {
-  Routes = &RouteTable{}
-}
-
 func Send(w http.ResponseWriter, text string) {
   fmt.Fprintf(w, text)
 }
@@ -56,5 +70,9 @@ func Listen(port int) {
 }
 
 func Get(route string, handler func(http.ResponseWriter, *http.Request)) {
-  http.HandleFunc(route, handler)
+  Routes.Route("GET", route, handler)
+}
+
+func Post(route string, handler func(http.ResponseWriter, *http.Request)) {
+  Routes.Route("POST", route, handler)
 }
