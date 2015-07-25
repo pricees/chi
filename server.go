@@ -4,6 +4,7 @@ import (
   "fmt"
   "./instant"
   "net/http"
+  "log"
 )
 
 func helloWorld(w http.ResponseWriter, r *http.Request) {
@@ -12,13 +13,17 @@ func helloWorld(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 
-  p := 8080
-
-  fmt.Printf("'instant' listening on %d\n", p)
+  // Add some routes, handlers
   instant.Get("/", helloWorld)
   instant.Post("/", func(w http.ResponseWriter, r *http.Request) {
     instant.Send(w, "This is a post!", "found", nil)
   })
 
-  instant.Listen(p)
+  // Add some middleware
+  instant.AddMiddleware(func(w http.ResponseWriter, r *http.Request) {
+    log.Println(fmt.Sprintf("%s %s", r.Method, r.URL))
+  })
+
+  // Fire up the server on port 8080
+  instant.Listen(8080)
 }

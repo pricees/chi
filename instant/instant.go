@@ -19,7 +19,8 @@ type Middlewarer interface {
 }
 
 var myRouter Router
-var myMiddleware Middlewarer
+//var myMiddleware Middlewarer
+var myMiddleware middleware.Middlewares
 
 func init() {
   myRouter = router.Routes
@@ -49,5 +50,7 @@ func Post(route string, handler func(http.ResponseWriter, *http.Request)) {
   myRouter.Route("POST", route, handler)
 }
 
-
+func AddMiddleware(middleware func(w http.ResponseWriter, r *http.Request)) {
+  myMiddleware.Add(middleware)
+}
 
