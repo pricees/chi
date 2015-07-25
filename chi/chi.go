@@ -1,4 +1,4 @@
-package instant
+package chi
 
 import (
   "fmt"
