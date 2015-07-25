@@ -7,7 +7,7 @@ import (
 )
 
 func helloWorld(w http.ResponseWriter, r *http.Request) {
-  instant.Send(w, "Hello Jeah!")
+  instant.Send(w, "Hello Jeah!", "not found", nil)
 }
 
 func main() {
@@ -17,7 +17,7 @@ func main() {
   fmt.Printf("'instant' listening on %d\n", p)
   instant.Get("/", helloWorld)
   instant.Post("/", func(w http.ResponseWriter, r *http.Request) {
-    instant.Send(w, "This is a post!")
+    instant.Send(w, "This is a post!", "found", nil)
   })
 
   instant.Listen(p)
