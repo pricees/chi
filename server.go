@@ -5,6 +5,7 @@ import (
   "./instant"
   "net/http"
   "log"
+  "encoding/json"
 )
 
 func helloWorld(w http.ResponseWriter, r *http.Request) {
@@ -15,7 +16,11 @@ func main() {
 
   // Add some routes, handlers
   instant.Get("/foo", func(w http.ResponseWriter, r *http.Request) {
-    instant.Send(w, "This is foo", "ok", nil)
+    if json, err := json.Marshal("This is foo"); err == nil {
+      instant.Send(w, string(json), "ok", nil)
+    } else {
+      log.Println(err)
+    }
   })
   instant.Get("/foo/?.*", helloWorld)
   instant.Post("/", func(w http.ResponseWriter, r *http.Request) {
@@ -26,6 +31,11 @@ func main() {
   instant.AddMiddleware(func(w http.ResponseWriter, r *http.Request) {
     log.Println(fmt.Sprintf("%s %s", r.Method, r.URL))
   })
+
+  alwaysJSON := func(w http.ResponseWriter, r *http.Request) {
+      w.Header().Set("Content-Type", "text/json")
+  }
+  instant.AddMiddleware(alwaysJSON)
 
   // Fire up the server on port 8080
   instant.Listen(8080)
